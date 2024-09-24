@@ -1,7 +1,7 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import ClickCounter from './components/ClickCounter'
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
+import ClickCounter from './components/ClickCounter';
 
 function App() {
   return (
@@ -15,12 +15,15 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
-      <ClickCounter />
+      <ClickCounter
+        title="Click Counter"
+        message="You are a master in the art of clicking!"
+      />
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

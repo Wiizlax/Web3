@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-const ClickCounter = () => {
+// eslint-disable-next-line react/prop-types
+function ClickCounter({ title, message }) {
   const [count, setCount] = useState(0);
+
   return (
-    <div className="card">
-      <button onClick={() => setCount((count) => count + 1)}>
-        count is {count}
+    <div>
+      <h2>{title}</h2>
+      <button onClick={() => setCount(count + 1)}>
+        Count is {count}
       </button>
-      <p>
-        Edit <code>src/App.jsx</code> and save to test HMR
-      </p>
+      {count >= 10 ? <p>{message}</p> : null}
     </div>
   );
-};
+}
 
 export default ClickCounter;
