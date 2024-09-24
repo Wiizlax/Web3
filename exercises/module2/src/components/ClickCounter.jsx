@@ -2,14 +2,20 @@
 import { useState } from "react";
 
 function ClickCounter({ title, message, hoverMessage }) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(JSON.parse(localStorage.getItem("count")));
   const [hover, setHover] = useState(false);
 
   return (
     <div>
       <h2>{title}</h2>
       <button
-        onClick={() => setCount(count + 1)}
+        onClick={() => {
+          setCount((prevCount) => {
+            const newCount = prevCount + 1;
+            localStorage.setItem("count", JSON.stringify(newCount));
+            return newCount;
+          });
+        }}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
