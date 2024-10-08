@@ -1,0 +1,13 @@
+html, body {
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  max-width: 600px; /* Largeur maximale du conteneur */
+  padding: 20px; /* Ajouter un peu d'espace intérieur */
+  border: 1px solid #ccc; /* Optionnel : ajouter une bordure */
+  border-radius: 5px; /* Optionnel : arrondir les coins */
+  background-color: #f9f9f9; /* Optionnel : couleur de fond */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optionnel : ombre */
+}
