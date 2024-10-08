@@ -1,6 +1,14 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
+
+// Composant Loading
+const Loading = () => (
+  <div>
+    <h2>Loading...</h2>
+    <p>Please wait while we load the feedback statistics.</p>
+  </div>
+);
 
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>
@@ -43,14 +51,27 @@ const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  // Utilisation de useEffect pour simuler le temps de chargement
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 3000);
+    return () => clearTimeout(timer); // Nettoyer le timer
+  }, []);
 
   return (
     <div>
       <h1>Give feedback</h1>
-      <Button handleClick={() => setGood(good + 1)} text="Good" />
-      <Button handleClick={() => setNeutral(neutral + 1)} text="Neutral" />
-      <Button handleClick={() => setBad(bad + 1)} text="Bad" />
-      <Statistics good={good} neutral={neutral} bad={bad} />
+      {loading ? (
+        <Loading /> // Affichage du composant Loading si l'état loading est true
+      ) : (
+        <div>
+          <Button handleClick={() => setGood(good + 1)} text="Good" />
+          <Button handleClick={() => setNeutral(neutral + 1)} text="Neutral" />
+          <Button handleClick={() => setBad(bad + 1)} text="Bad" />
+          <Statistics good={good} neutral={neutral} bad={bad} />
+        </div>
+      )}
     </div>
   );
 };
