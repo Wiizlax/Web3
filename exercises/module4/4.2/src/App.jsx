@@ -1,24 +1,19 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import './App.css'
+import { useState, useEffect } from "react";
+import personServices from "./services/persons";
+import "./App.css";
 
 const App = () => {
-
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '0470123456' }
-  ]) 
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
+    { name: "Arto Hellas", number: "0470123456" },
+  ]);
+  const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
-  }, [])
+    personServices.getAll().then((response) =>{
+      setPersons(response.data);
+    })
+  }, []);
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -30,36 +25,32 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault(); // Empêche le rafraîchissement de la page
-    if (persons.some(person => person.name === newName)) {
+    if (persons.some((person) => person.name === newName)) {
       alert(`${newName} already exists in the phonebook!`);
-      return; 
+      return;
     }
 
     const personObject = {
       name: newName,
-      number: newNumber
+      number: newNumber,
     };
 
-    setPersons(persons.concat(personObject));
-    setNewName('');
-    setNewNumber('');
+    personServices.create(personObject).then((response) => {
+      setPersons(persons.concat(response.data));
+      setNewName("");
+      setNewNumber("");
+    });
   };
 
   return (
-    <div className='container'>
+    <div className="container">
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
         <div>
-          name: <input 
-                  value={newName}
-                  onChange={handleNameChange}
-                  />
+          name: <input value={newName} onChange={handleNameChange} />
         </div>
         <div>
-          number: <input 
-                  value={newNumber}
-                  onChange={handleNumberChange}
-                  />
+          number: <input value={newNumber} onChange={handleNumberChange} />
         </div>
         <div>
           <button type="submit">add</button>
@@ -68,11 +59,13 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {persons.map((person, index) => (
-          <li key={index}>{person.name} {person.number}</li>
+          <li key={index}>
+            {person.name} {person.number}
+          </li>
         ))}
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
