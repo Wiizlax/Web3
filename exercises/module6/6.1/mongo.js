@@ -7,11 +7,15 @@ if (process.argv.length !== 3 && process.argv.length !== 5) {
 
 const password = process.argv[2];
 
-const url = `mongodb+srv://Wiizlax:${password}@cluster0.yhenn.mongodb.net/phonebook?retryWrites=true&w=majority&appName=Cluster0`;
+const url = `mongodb+srv://Wiizlax:${password}@cluster0.yhenn.mongodb.net/phonebook`;
 
-mongoose.set("strictQuery", false);
+console.log("url:", url );
 
-mongoose.connect(url);
+// mongoose.set("strictQuery", false);
+
+mongoose.connect(url).catch((error) => {
+  console.error("Error : ", error);
+});
 
 if (process.argv.length === 5) {
   const phonebookSchema = new mongoose.Schema({
@@ -33,17 +37,17 @@ if (process.argv.length === 5) {
     mongoose.connection.close();
   });
 } else {
-    const phonebookSchema = new mongoose.Schema({
-        name: String,
-        number: String,
-      });
-    
-    const Contact = mongoose.model("Contact", phonebookSchema);
-    console.log("Phonebook:")
-    Contact.find({}).then((result) => {
-        result.forEach((contact) => {
-          console.log(contact.name + ' ' + contact.number);
-        });
-        mongoose.connection.close();
-      });
+  const phonebookSchema = new mongoose.Schema({
+    name: String,
+    number: String,
+  });
+
+  const Contact = mongoose.model("Contact", phonebookSchema);
+  console.log("Phonebook:");
+  Contact.find({}).then((result) => {
+    result.forEach((contact) => {
+      console.log(contact.name + " " + contact.number);
+    });
+    mongoose.connection.close();
+  });
 }
